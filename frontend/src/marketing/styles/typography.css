@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&family=Outfit:wght@400;500;600;700&display=swap");
+
+.mira-marketing {
+  font-family: var(--mira-ui-font);
+  color: var(--mira-text);
+  background: var(--mira-gradient-hero);
+}
+
+.mira-display {
+  font-family: var(--mira-display-font);
+  letter-spacing: 0.01em;
+}
+
+.mira-body {
+  font-family: var(--mira-body-font);
+  font-variation-settings: "opsz" 28;
+}
+
+.mira-ui {
+  font-family: var(--mira-ui-font);
+}
+
+.mira-micro {
+  font-family: var(--mira-ui-font);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.mira-prose {
+  font-family: var(--mira-body-font);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  letter-spacing: 0.005em;
+  color: var(--mira-text);
+}
+
+.mira-headline {
+  font-family: var(--mira-display-font);
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+}
+
+.mira-h1 {
+  font-size: clamp(3rem, 7vw, 6rem);
+}
+
+.mira-h2 {
+  font-size: clamp(2rem, 4vw, 3.3rem);
+}
+
+.mira-h3 {
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+}
+
+.mira-flow {
+  text-wrap: balance;
+}
+
+.mira-measure {
+  max-width: 64ch;
+}
+

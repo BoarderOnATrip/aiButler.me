@@ -1,0 +1,581 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700;800&display=swap");
+
+:root {
+  --marketing-charcoal: #1a1a1a;
+  --marketing-charcoal-soft: #23201d;
+  --marketing-copper: #b87333;
+  --marketing-copper-glow: rgba(184, 115, 51, 0.32);
+  --marketing-amber: #d4a847;
+  --marketing-cream: #f5f0e8;
+  --marketing-cream-muted: rgba(245, 240, 232, 0.74);
+  --marketing-smoke: #2a2a2a;
+  --marketing-paper: #3a3530;
+  --marketing-panel: rgba(42, 42, 42, 0.78);
+  --marketing-stroke: rgba(245, 240, 232, 0.14);
+  --marketing-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+body.marketing-body {
+  font-family: "Outfit", sans-serif;
+  color: var(--marketing-cream);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(212, 168, 71, 0.11), transparent 34%),
+    radial-gradient(circle at 100% 20%, rgba(184, 115, 51, 0.09), transparent 30%),
+    linear-gradient(180deg, #151312, #1a1a1a 35%, #120f0d 100%);
+}
+
+.marketing-root {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.marketing-root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.7) 0.65px, transparent 0.7px),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.8) 0.6px, transparent 0.65px);
+  background-size: 14px 14px, 19px 19px;
+  mix-blend-mode: screen;
+}
+
+.marketing-topbar-shell,
+.marketing-editorial-card,
+.marketing-section-shell,
+.marketing-cta-shell,
+.marketing-chat-panel,
+.marketing-chat-preview,
+.marketing-proof-chip,
+.marketing-ingestion-card,
+.marketing-tier-card,
+.marketing-highlight-card,
+.marketing-objection-card,
+.marketing-step-card {
+  border: 1px solid var(--marketing-stroke);
+  background: linear-gradient(180deg, rgba(48, 42, 38, 0.78), rgba(26, 23, 21, 0.84));
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(16px);
+}
+
+.marketing-topbar-shell {
+  position: sticky;
+  top: 16px;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 24px;
+}
+
+.marketing-wordmark {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: "Playfair Display", serif;
+  font-size: 1.35rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--marketing-cream);
+}
+
+.marketing-wordmark span,
+.marketing-chat-kicker,
+.marketing-ingestion-label,
+.marketing-tier-kicker,
+.marketing-proof-label,
+.marketing-eyebrow {
+  font-family: "Outfit", sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--marketing-copper);
+}
+
+.marketing-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.marketing-nav-link,
+.marketing-primary-button,
+.marketing-secondary-button,
+.marketing-icon-button,
+.marketing-chip-button {
+  transition: transform 180ms var(--marketing-ease), background 180ms var(--marketing-ease), border-color 180ms var(--marketing-ease), box-shadow 180ms var(--marketing-ease), color 180ms var(--marketing-ease);
+}
+
+.marketing-nav-link {
+  padding: 9px 13px;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  color: var(--marketing-cream-muted);
+  border: 1px solid transparent;
+}
+
+.marketing-nav-link:hover,
+.marketing-nav-link.is-active {
+  color: var(--marketing-cream);
+  border-color: rgba(212, 168, 71, 0.22);
+  background: rgba(184, 115, 51, 0.1);
+}
+
+.marketing-primary-button,
+.marketing-secondary-button,
+.marketing-icon-button,
+.marketing-chip-button {
+  border-radius: 999px;
+  font-size: 0.94rem;
+  line-height: 1;
+}
+
+.marketing-primary-button {
+  padding: 0.95rem 1.25rem;
+  color: #14110f;
+  background: linear-gradient(135deg, var(--marketing-amber), #f1c463);
+  box-shadow: 0 14px 32px rgba(212, 168, 71, 0.2);
+}
+
+.marketing-primary-button:hover,
+.marketing-secondary-button:hover,
+.marketing-icon-button:hover,
+.marketing-chip-button:hover {
+  transform: translateY(-1px);
+}
+
+.marketing-secondary-button,
+.marketing-icon-button,
+.marketing-chip-button {
+  padding: 0.9rem 1.15rem;
+  color: var(--marketing-cream);
+  background: rgba(245, 240, 232, 0.04);
+  border: 1px solid rgba(245, 240, 232, 0.12);
+}
+
+.marketing-icon-button {
+  padding-inline: 1rem;
+}
+
+.marketing-hero-shell,
+.marketing-section-head,
+.marketing-cta-shell {
+  display: grid;
+  gap: 18px;
+}
+
+.marketing-hero-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(3rem, 6vw, 5.8rem);
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.marketing-hero-copy,
+.marketing-section-subtitle,
+.marketing-ingestion-copy,
+.marketing-tier-summary,
+.marketing-chat-status {
+  color: var(--marketing-cream-muted);
+  font-size: 1.03rem;
+  line-height: 1.75;
+}
+
+.marketing-editorial-card,
+.marketing-section-shell,
+.marketing-cta-shell {
+  border-radius: 32px;
+  padding: 28px;
+}
+
+.marketing-editorial-card--hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.marketing-editorial-card--hero::after {
+  content: "";
+  position: absolute;
+  inset: auto -12% -18% auto;
+  width: 280px;
+  height: 280px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(184, 115, 51, 0.18), transparent 65%);
+}
+
+.marketing-section-head {
+  margin-bottom: 20px;
+  align-items: end;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.marketing-section-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.65rem, 3vw, 2.4rem);
+  line-height: 1.08;
+  color: var(--marketing-cream);
+  text-wrap: balance;
+}
+
+.marketing-ingestion-card,
+.marketing-tier-card,
+.marketing-highlight-card,
+.marketing-objection-card,
+.marketing-step-card,
+.marketing-proof-chip {
+  border-radius: 24px;
+  padding: 20px;
+  text-align: left;
+}
+
+.marketing-ingestion-card--active {
+  border-color: rgba(212, 168, 71, 0.42);
+  box-shadow: 0 0 0 1px rgba(212, 168, 71, 0.2), 0 24px 80px rgba(0, 0, 0, 0.28);
+}
+
+.marketing-ingestion-title,
+.marketing-tier-name,
+.marketing-cta-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.55rem;
+  line-height: 1.08;
+  margin-top: 10px;
+}
+
+.marketing-ingestion-cta {
+  display: inline-flex;
+  margin-top: 18px;
+  color: var(--marketing-amber);
+  font-size: 0.92rem;
+}
+
+.marketing-tier-price,
+.marketing-step-index {
+  color: var(--marketing-amber);
+  font-size: 0.9rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.marketing-tier-list {
+  margin: 18px 0 22px;
+  display: grid;
+  gap: 10px;
+  color: var(--marketing-cream-muted);
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+
+.marketing-tier-list li {
+  position: relative;
+  padding-left: 18px;
+}
+
+.marketing-tier-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--marketing-copper);
+  box-shadow: 0 0 14px var(--marketing-copper-glow);
+}
+
+.marketing-proof-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.marketing-proof-value {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+}
+
+.marketing-step-card {
+  display: grid;
+  gap: 16px;
+}
+
+.marketing-cta-shell {
+  grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+  align-items: center;
+}
+
+.marketing-cta-card {
+  border-radius: 24px;
+  border: 1px solid rgba(245, 240, 232, 0.12);
+  background: rgba(245, 240, 232, 0.04);
+  padding: 22px;
+}
+
+.marketing-email-input,
+.marketing-chat-input {
+  width: 100%;
+  border-radius: 18px;
+  border: 1px solid rgba(245, 240, 232, 0.14);
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--marketing-cream);
+  padding: 0.95rem 1rem;
+  outline: none;
+}
+
+.marketing-email-input:focus,
+.marketing-chat-input:focus {
+  border-color: rgba(212, 168, 71, 0.42);
+  box-shadow: 0 0 0 3px rgba(212, 168, 71, 0.12);
+}
+
+.mira-orb {
+  width: 74px;
+  height: 74px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 38% 32%, rgba(255, 235, 194, 0.76), rgba(212, 168, 71, 0.25) 28%, rgba(184, 115, 51, 0.88) 62%, rgba(97, 53, 21, 0.72) 100%);
+  box-shadow: 0 0 0 1px rgba(212, 168, 71, 0.38), 0 0 40px rgba(184, 115, 51, 0.28);
+  animation: copperPulse 3.6s infinite;
+}
+
+.mira-orb--small {
+  width: 42px;
+  height: 42px;
+}
+
+.copper-divider {
+  height: 1px;
+  margin: 10px 0 12px;
+  background: linear-gradient(90deg, transparent, rgba(184, 115, 51, 0.8), transparent);
+}
+
+.marketing-chat-launcher {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 12px;
+}
+
+.marketing-chat-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 78px;
+  height: 78px;
+  border-radius: 999px;
+  border: 1px solid rgba(212, 168, 71, 0.35);
+  background: rgba(31, 26, 22, 0.88);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.32);
+}
+
+.marketing-chat-preview {
+  max-width: 320px;
+  border-radius: 24px;
+  padding: 16px 18px;
+  display: grid;
+  gap: 6px;
+  text-align: left;
+  animation: floatUp 320ms var(--marketing-ease);
+}
+
+.marketing-chat-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: stretch;
+  justify-content: end;
+  padding: 18px;
+  background: rgba(16, 13, 11, 0.36);
+  backdrop-filter: blur(8px);
+}
+
+.marketing-chat-panel {
+  width: min(420px, 100%);
+  border-radius: 30px;
+  padding: 18px;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 14px;
+}
+
+.marketing-chat-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.marketing-chat-thread {
+  overflow-y: auto;
+  display: grid;
+  gap: 12px;
+  padding-right: 4px;
+}
+
+.marketing-chat-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.marketing-chat-inputbar {
+  display: grid;
+  gap: 10px;
+}
+
+.marketing-bubble {
+  border-radius: 26px;
+  padding: 14px 16px;
+  transition: width 160ms var(--marketing-ease), min-height 160ms var(--marketing-ease), transform 160ms var(--marketing-ease);
+}
+
+.marketing-bubble--mira {
+  background: rgba(42, 42, 42, 0.92);
+  border: 1px solid rgba(245, 240, 232, 0.08);
+  border-left: 2px solid rgba(184, 115, 51, 0.9);
+  box-shadow: 0 0 28px rgba(184, 115, 51, 0.08);
+}
+
+.marketing-bubble--user {
+  background: rgba(58, 53, 48, 0.88);
+  border: 1px solid rgba(245, 240, 232, 0.08);
+}
+
+.marketing-bubble--live {
+  box-shadow: 0 0 0 1px rgba(212, 168, 71, 0.18), 0 0 24px rgba(184, 115, 51, 0.12);
+}
+
+.marketing-bubble--typing {
+  width: 110px;
+}
+
+.marketing-mira-copy {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.28rem;
+  line-height: 1.56;
+  color: var(--marketing-cream);
+}
+
+.marketing-user-copy {
+  font-size: 1rem;
+  line-height: 1.52;
+  color: var(--marketing-cream);
+}
+
+.typing-indicator {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.typing-indicator__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--marketing-copper);
+  animation: typingPulse 1.8s infinite;
+}
+
+.typing-indicator__dot:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.typing-indicator__dot:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+@keyframes copperPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 1px rgba(212, 168, 71, 0.38), 0 0 40px rgba(184, 115, 51, 0.28);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 0 0 1px rgba(212, 168, 71, 0.58), 0 0 54px rgba(212, 168, 71, 0.3);
+  }
+}
+
+@keyframes floatUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes typingPulse {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.75);
+    opacity: 0.45;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .marketing-section-head {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.35fr);
+  }
+}
+
+@media (max-width: 1023px) {
+  .marketing-topbar-shell {
+    position: static;
+  }
+
+  .marketing-cta-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .marketing-topbar-shell {
+    padding: 14px;
+  }
+
+  .marketing-editorial-card,
+  .marketing-section-shell,
+  .marketing-cta-shell {
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .marketing-chat-overlay {
+    padding: 10px;
+  }
+
+  .marketing-chat-panel {
+    width: 100%;
+    border-radius: 24px;
+    height: 100%;
+  }
+
+  .marketing-chat-launcher {
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .marketing-chat-trigger {
+    width: 66px;
+    height: 66px;
+  }
+}

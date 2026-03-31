@@ -1,0 +1,68 @@
+:root {
+  --mira-move-in: 240ms;
+  --mira-move-out: 180ms;
+  --mira-move-long: 560ms;
+  --mira-fade-in: 280ms;
+  --mira-fade-out: 180ms;
+  --mira-wobble: 840ms;
+}
+
+.mira-animate-in {
+  animation: mira-fade-up var(--mira-fade-in) var(--mira-ease-gentle) both;
+}
+
+.mira-animate-in-delayed {
+  animation: mira-fade-up var(--mira-move-long) var(--mira-ease-liquid) both;
+}
+
+.mira-hover-lift {
+  transition:
+    transform var(--mira-duration-base) var(--mira-ease-gentle),
+    box-shadow var(--mira-duration-base) var(--mira-ease-gentle),
+    border-color var(--mira-duration-base) var(--mira-ease-gentle);
+}
+
+.mira-hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+.mira-copper-pulse {
+  animation: mira-copper-pulse 2.8s var(--mira-ease-liquid) infinite;
+}
+
+.mira-stagger > * {
+  animation: mira-fade-up var(--mira-duration-slow) var(--mira-ease-liquid) both;
+}
+
+.mira-stagger > *:nth-child(1) { animation-delay: 60ms; }
+.mira-stagger > *:nth-child(2) { animation-delay: 120ms; }
+.mira-stagger > *:nth-child(3) { animation-delay: 180ms; }
+.mira-stagger > *:nth-child(4) { animation-delay: 240ms; }
+.mira-stagger > *:nth-child(5) { animation-delay: 300ms; }
+.mira-stagger > *:nth-child(6) { animation-delay: 360ms; }
+
+@keyframes mira-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes mira-copper-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(184, 115, 51, 0.22);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(184, 115, 51, 0);
+    transform: scale(1.02);
+  }
+}
+
