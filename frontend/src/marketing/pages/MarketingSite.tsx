@@ -1,64 +1,155 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { ArrowRight, ChevronRight, MessageSquareText, ShieldCheck, Sparkles } from "lucide-react";
 import { captureEvent } from "../../lib/posthog";
-import { funnels, funnelFromPath, type FunnelDefinition } from "../content/funnels";
+import { funnels, funnelFromPath, serviceTiers, type FunnelDefinition } from "../content/funnels";
 import ChatWidget from "../components/chat/ChatWidget";
-import FunnelCta from "../components/shared/FunnelCta";
-import IngestionGrid from "../components/shared/IngestionGrid";
-import ProofRibbon from "../components/shared/ProofRibbon";
-import SectionShell from "../components/shared/SectionShell";
-import ServiceTierCards from "../components/shared/ServiceTierCards";
 
 type MarketingSiteProps = {
   pathname: string;
   onNavigate: (path: string) => void;
 };
 
-const awarenessRails = [
+const operatingPillars = [
   {
-    title: "Hook the desire already in motion",
-    copy: "Cold traffic needs a felt problem and a vivid promise first. Do not start with architecture diagrams or a lecture about features.",
+    title: "Communication triage",
+    body: "Signal gets surfaced, low-value inbound gets absorbed, and the user stops acting as the human router for every incoming thread.",
   },
   {
-    title: "Let the page breathe before the pitch lands",
-    copy: "The strongest funnels here move from atmosphere to appetite to action. The offer appears after the visitor can picture the relief.",
+    title: "Calendar choreography",
+    body: "The goal is not just booking. It is shaping the day around focus, momentum, and fewer unnecessary transitions.",
   },
   {
-    title: "Different doors for different awareness",
-    copy: "Investors, warm prospects, existing buyers, and brand-new visitors should not all hit the same headline, CTA, or proof sequence.",
+    title: "Memory with utility",
+    body: "Receipts, commitments, relationship context, and proof artifacts get attached where they become useful later.",
   },
-];
+  {
+    title: "Delegated follow-through",
+    body: "Routine loops become supervised execution: follow-up, reminders, summaries, routing, and approvals.",
+  },
+] as const;
 
-const investorRail = [
-  "Single-user indispensability before team scale",
-  "Trust architecture and workflow history as moat",
-  "Origami Encryption framed as research, not theater",
-  "Phased expansion into provenance, vault, and office layers",
-];
+const architectureLayers = [
+  { label: "Relationship memory", detail: "People, tone, history, obligations, and pattern recognition that compounds over time." },
+  { label: "Workflow graph", detail: "Tasks, approvals, timing, dependencies, and daily operational sequence." },
+  { label: "Capability vault", detail: "Trusted tool access, continuity, and the right to act without loose credential sprawl." },
+  { label: "Audit ledger", detail: "What happened, why it happened, and what authority or approval allowed it." },
+] as const;
 
-function investorNarrative(segment: FunnelDefinition) {
+const workerLoops = ["Triage", "Scheduling", "Follow-up", "Receipts", "Comms"] as const;
+
+const investorBridgeCards = [
+  {
+    label: "Business now",
+    title: "The wedge is operational pain that shows up every day.",
+    body: "The first product win is simple: fewer bad interruptions, cleaner follow-through, and a day that gets shaped instead of constantly broken apart.",
+  },
+  {
+    label: "Compounding moat",
+    title: "Retention deepens through memory, trust, and delegated authority.",
+    body: "The longer the Butler is in use, the better it understands tone, timing, approvals, and what matters enough to surface.",
+  },
+  {
+    label: "Claims discipline",
+    title: "Research stays separate until it earns stronger claims.",
+    body: "Long-horizon trust architecture may matter later, but the current product case stands on utility, continuity, and execution rather than speculative cryptography.",
+  },
+] as const;
+
+const segmentAngles: Record<
+  FunnelDefinition["key"],
+  {
+    label: string;
+    title: string;
+    body: string;
+    proof: string;
+  }
+> = {
+  random: {
+    label: "Cold traffic",
+    title: "Make the first minute feel like relief, not software.",
+    body: "This route has to create appetite before it starts explaining mechanics. The promise is emotional first: less drag, cleaner control, a calmer day.",
+    proof: "Mood before mechanics. Desire before detail. A page that feels like walking into the right room.",
+  },
+  investors: {
+    label: "Capital narrative",
+    title: "Keep the product credible and the research edge disciplined.",
+    body: "This route separates commercial traction from long-horizon trust architecture. The business is the Butler. Origami Encryption is the research frontier, not the quarterly revenue story.",
+    proof: "One-user indispensability first. Trust architecture as moat. Claims discipline everywhere.",
+  },
+  users: {
+    label: "Operator path",
+    title: "Show the lived workflow, not a glossy abstraction.",
+    body: "Warm prospects need to picture what happens to their inbox, calendar, receipts, and follow-up loop within the first screenful.",
+    proof: "Before-and-after day design beats feature catalog copy.",
+  },
+  returning: {
+    label: "Continuation path",
+    title: "Returning users should feel remembered instead of re-pitched.",
+    body: "Continuity is the asset here. The site should acknowledge history, surface what deepened, and make the next layer feel inevitable.",
+    proof: "Memory, momentum, and next-step clarity are the conversion lever.",
+  },
+  new: {
+    label: "First welcome",
+    title: "Give brand-new visitors a graceful first yes.",
+    body: "This route should lower perceived complexity. The product feels premium, but the first commitment feels light, precise, and safe.",
+    proof: "A clean invitation beats a hard close when trust is still being formed.",
+  },
+};
+
+function scrollToId(id: string) {
+  if (typeof document === "undefined") return;
+  const element = document.getElementById(id);
+  if (!element) return;
+  element.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function openMiraChat(segment: FunnelDefinition, source: string) {
+  captureEvent("marketing_cta_clicked", {
+    segment: segment.key,
+    path: segment.path,
+    source,
+  });
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(
+      new CustomEvent("aibutler:open-chat", {
+        detail: {
+          segment: segment.key,
+          source,
+        },
+      }),
+    );
+  }
+}
+
+function renderAudienceCard(item: FunnelDefinition, activePath: string, onNavigate: (path: string) => void) {
+  const isActive = item.path === activePath;
   return (
-    <div className="grid gap-4 lg:grid-cols-[1.1fr,0.9fr]">
-      <div className="marketing-editorial-card">
-        <p className="marketing-eyebrow">Capital narrative</p>
-        <h3 className="marketing-section-title">The investor page should answer the hard questions without sounding defensive.</h3>
-        <p className="marketing-section-subtitle">
-          Lead with premium pain, category timing, wedge, and moat. Keep the research edge clear, disciplined, and clearly separated from
-          current production security claims.
-        </p>
-      </div>
-      <div className="grid gap-3">
-        {investorRail.map((item) => (
-          <div key={item} className="marketing-highlight-card">
-            {item}
-          </div>
-        ))}
-      </div>
-    </div>
+    <button
+      key={item.key}
+      type="button"
+      className={`site-door-card ${isActive ? "is-active" : ""}`}
+      onClick={() => onNavigate(item.path)}
+    >
+      <span className="site-door-label">{item.audienceLabel}</span>
+      <strong>{item.hero.primaryCta}</strong>
+      <p>{item.intent}</p>
+      <span className="site-door-cta">
+        Enter this route
+        <ChevronRight size={14} />
+      </span>
+    </button>
   );
 }
 
 export default function MarketingSite({ pathname, onNavigate }: MarketingSiteProps) {
   const funnel = funnels[funnelFromPath(pathname)];
+  const audienceDoors = useMemo(() => Object.values(funnels), []);
+  const [activeTierKey, setActiveTierKey] = useState(serviceTiers[1]?.key ?? serviceTiers[0].key);
+  const activeTier = useMemo(
+    () => serviceTiers.find((tier) => tier.key === activeTierKey) ?? serviceTiers[1] ?? serviceTiers[0],
+    [activeTierKey],
+  );
+  const segmentAngle = segmentAngles[funnel.key];
 
   useEffect(() => {
     document.body.classList.add("marketing-body");
@@ -66,7 +157,7 @@ export default function MarketingSite({ pathname, onNavigate }: MarketingSitePro
   }, []);
 
   useEffect(() => {
-    document.title = funnel.key === "random" ? "aiButler — Mira" : `aiButler — ${funnel.audienceLabel}`;
+    document.title = funnel.key === "random" ? "aiButler" : `aiButler — ${funnel.audienceLabel}`;
   }, [funnel]);
 
   useEffect(() => {
@@ -77,21 +168,25 @@ export default function MarketingSite({ pathname, onNavigate }: MarketingSitePro
   }, [funnel.key, pathname]);
 
   return (
-    <div className="marketing-root">
-      <div className="mx-auto max-w-7xl px-4 py-5 md:px-6 lg:px-8">
-        <header className="marketing-topbar-shell">
-          <button type="button" className="marketing-wordmark" onClick={() => onNavigate("/")}>
-            aiButler
-            <span>Mira in the room</span>
+    <div className={`marketing-root marketing-root--${funnel.key}`}>
+      <div className="site-shell">
+        <header className="site-header">
+          <button type="button" className="site-brand" onClick={() => onNavigate("/")}>
+            <span className="site-brand-mark" aria-hidden="true" />
+            <span>
+              aiButler
+              <small>The AI that breathes on screen</small>
+            </span>
           </button>
-          <nav className="marketing-nav">
-            {Object.values(funnels).map((item) => {
+
+          <nav className="site-nav" aria-label="Audience routes">
+            {audienceDoors.map((item) => {
               const active = item.key === funnel.key;
               return (
                 <button
                   key={item.key}
                   type="button"
-                  className={`marketing-nav-link ${active ? "is-active" : ""}`}
+                  className={`site-nav-link ${active ? "is-active" : ""}`}
                   onClick={() => onNavigate(item.path)}
                 >
                   {item.navLabel}
@@ -99,144 +194,304 @@ export default function MarketingSite({ pathname, onNavigate }: MarketingSitePro
               );
             })}
           </nav>
-          <div className="flex items-center gap-3">
-            <button type="button" className="marketing-secondary-button" onClick={() => onNavigate("/investors")}>
-              Investor path
+
+          <div className="site-header-actions">
+            <button type="button" className="marketing-secondary-button" onClick={() => scrollToId("ingestion-points")}>
+              See the paths
             </button>
-            <button type="button" className="marketing-secondary-button" onClick={() => onNavigate("/origami")}>
-              Origami research
-            </button>
-            <button type="button" className="marketing-primary-button" onClick={() => onNavigate("/users")}>
-              See the Butler flow
+            <button type="button" className="marketing-primary-button" onClick={() => openMiraChat(funnel, "header")}>
+              Talk to Mira
             </button>
           </div>
         </header>
 
-        <main className="space-y-10 pb-20">
-          <section className="grid gap-6 pt-4 lg:grid-cols-[1.1fr,0.9fr] lg:pt-8">
-            <div className="space-y-6">
-              <div className="marketing-hero-shell">
-                <p className="marketing-eyebrow">{funnel.eyebrow}</p>
-                <h1 className="marketing-hero-title">{funnel.headline}</h1>
-                <p className="marketing-hero-copy">{funnel.subheadline}</p>
-                <div className="flex flex-wrap gap-3">
-                  <button type="button" className="marketing-primary-button" onClick={() => onNavigate(funnel.path)}>
-                    {funnel.ctaPrimary}
-                  </button>
-                  <button type="button" className="marketing-secondary-button" onClick={() => onNavigate("/users")}>
-                    {funnel.ctaSecondary}
-                  </button>
-                </div>
+        <main className="site-main">
+          <section className="site-hero">
+            <div className="site-hero-copy">
+              <div className="site-hero-kicker">
+                <Sparkles size={14} />
+                {funnel.eyebrow}
               </div>
-              <ProofRibbon points={funnel.proofPoints} />
-            </div>
+              <h1>{funnel.headline}</h1>
+              <p className="site-hero-subtitle">{funnel.subheadline}</p>
 
-            <aside className="marketing-editorial-card marketing-editorial-card--hero">
-              <div className="flex items-start gap-4">
-                <div className="mira-orb" />
-                <div className="space-y-2">
-                  <p className="marketing-eyebrow">Mira’s read</p>
-                  <h2 className="marketing-section-title text-[clamp(1.5rem,3vw,2.35rem)]">
-                    The first impression should feel like someone interesting turned toward you.
-                  </h2>
-                </div>
+              <div className="site-hero-actions">
+                <button type="button" className="marketing-primary-button" onClick={() => scrollToId("offer-ladder")}>
+                  {funnel.ctaPrimary}
+                </button>
+                <button type="button" className="marketing-secondary-button" onClick={() => openMiraChat(funnel, "hero")}>
+                  <MessageSquareText size={16} />
+                  {funnel.ctaSecondary}
+                </button>
               </div>
-              <div className="copper-divider" />
-              <p className="marketing-section-subtitle">{funnel.narrative}</p>
-              <div className="grid gap-3 md:grid-cols-3">
-                {awarenessRails.map((rail) => (
-                  <div key={rail.title} className="marketing-highlight-card">
-                    <p className="marketing-eyebrow">{rail.title}</p>
-                    <p className="text-sm leading-6 text-[var(--marketing-cream-muted)]">{rail.copy}</p>
-                  </div>
+
+              <div className="site-chip-list">
+                {funnel.sectionNotes.map((note) => (
+                  <span key={note} className="site-chip">
+                    {note}
+                  </span>
                 ))}
               </div>
-            </aside>
-          </section>
-
-          <SectionShell
-            eyebrow="Segmented entry points"
-            title="Five doors. Five levels of awareness. Five cleaner funnels."
-            subtitle="Random traffic, investors, warm users, returning buyers, and brand-new visitors each deserve their own conversation, promise, and next step."
-          >
-            <IngestionGrid currentPath={pathname} onNavigate={onNavigate} />
-          </SectionShell>
-
-          <SectionShell
-            eyebrow="What the system actually changes"
-            title="The site should sell relief, control, and movement — then prove it with specifics."
-            subtitle="These sections move from felt outcome into concrete operational value without breaking the mood."
-          >
-            <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-4">
-              {funnel.highlights.map((item) => (
-                <article key={item} className="marketing-highlight-card">
-                  <p className="text-base leading-7 text-[var(--marketing-cream)]">{item}</p>
-                </article>
-              ))}
             </div>
-          </SectionShell>
 
-          {funnel.key === "investors" ? (
-            <SectionShell
-              eyebrow="Investor lens"
-              title="A credible capital story lives in sequencing, not theatrics."
-              subtitle="The investor funnel should separate the immediate product from the long-horizon research edge while making the expansion logic feel inevitable."
-            >
-              {investorNarrative(funnel)}
-            </SectionShell>
-          ) : (
-            <SectionShell
-              eyebrow="Soft objections"
-              title="Visitors keep scrolling when the page answers resistance without turning defensive."
-              subtitle="A good funnel lets the visitor feel understood before it asks for a commitment."
-            >
-              <div className="grid gap-4 lg:grid-cols-3">
-                {funnel.objections.map((item) => (
-                  <article key={item} className="marketing-objection-card">
-                    <p className="marketing-eyebrow">Common tension</p>
-                    <p className="text-base leading-7 text-[var(--marketing-cream)]">{item}</p>
+            <aside className="site-stage">
+              <article className="site-stage-card site-stage-card--accent">
+                <span className="site-card-kicker">{segmentAngle.label}</span>
+                <h2>{segmentAngle.title}</h2>
+                <p>{segmentAngle.body}</p>
+                <div className="site-proof-line">
+                  <strong>Why this page converts:</strong>
+                  <span>{segmentAngle.proof}</span>
+                </div>
+              </article>
+
+              <div className="site-stat-grid">
+                {funnel.proofPoints.map((point) => (
+                  <article key={point.label} className="site-stat-card">
+                    <span>{point.label}</span>
+                    <strong>{point.value}</strong>
+                    <p>{point.detail}</p>
                   </article>
                 ))}
               </div>
-            </SectionShell>
-          )}
 
-          <SectionShell
-            eyebrow="Offer architecture"
-            title="The offer ladder needs to match readiness."
-            subtitle="People should be able to start light, move into implementation, and expand into deeper trust layers without feeling like they have changed worlds."
-          >
-            <ServiceTierCards />
-          </SectionShell>
+              <article className="site-stage-card">
+                <span className="site-card-kicker">Mira’s opening move</span>
+                <p className="site-stage-prompt">“{funnel.prompt}”</p>
+                <div className="site-prompt-list">
+                  {funnel.chatPrompts.slice(0, 3).map((prompt) => (
+                    <button
+                      key={prompt}
+                      type="button"
+                      className="site-chat-prompt"
+                      onClick={() => openMiraChat(funnel, `prompt:${prompt}`)}
+                    >
+                      {prompt}
+                    </button>
+                  ))}
+                </div>
+              </article>
+            </aside>
+          </section>
 
-          <SectionShell
-            eyebrow="Next-step choreography"
-            title="Every segment should know what happens after the first yes."
-            subtitle="The strongest funnels lower friction by making the path visible: diagnose, route, book, or continue."
-          >
-            <div className="grid gap-4 lg:grid-cols-3">
-              {funnel.nextSteps.map((step, index) => (
-                <article key={step} className="marketing-step-card">
-                  <span className="marketing-step-index">0{index + 1}</span>
-                  <p className="text-base leading-7 text-[var(--marketing-cream)]">{step}</p>
+          <section className="site-section" id="ingestion-points">
+            <div className="site-section-head">
+              <div>
+                <span className="site-section-number">01</span>
+                <h2>Five doors. Five levels of readiness. One Butler behind them.</h2>
+              </div>
+              <p>
+                The public site should not treat investors, warm buyers, returning customers, and brand-new visitors like the same person.
+                Each route keeps the promise consistent but changes the conversation shape.
+              </p>
+            </div>
+
+            <div className="site-door-grid">
+              {audienceDoors.map((item) => renderAudienceCard(item, funnel.path, onNavigate))}
+            </div>
+          </section>
+
+          <section className="site-section">
+            <div className="site-section-head">
+              <div>
+                <span className="site-section-number">02</span>
+                <h2>The product story has to land as felt relief before it lands as architecture.</h2>
+              </div>
+              <p>{funnel.narrative}</p>
+            </div>
+
+            <div className="site-pillar-grid">
+              {operatingPillars.map((pillar) => (
+                <article key={pillar.title} className="site-pillar-card">
+                  <span className="site-card-kicker">Core movement</span>
+                  <h3>{pillar.title}</h3>
+                  <p>{pillar.body}</p>
                 </article>
               ))}
             </div>
-          </SectionShell>
+          </section>
 
-          <FunnelCta
-            title="Capture the lead without killing the mood."
-            body="The offer should feel like the next scene in the story: audit, memo, tasting flight, or the right follow-up room. That keeps the funnel direct-response sharp without feeling pushy."
-            offer={funnel.offer}
-            ctaLabel={funnel.ctaPrimary}
-            segment={funnel.key}
-            audienceLabel={funnel.audienceLabel}
-            sourcePath={funnel.path}
-          />
+          <section className="site-section">
+            <div className="site-section-head">
+              <div>
+                <span className="site-section-number">03</span>
+                <h2>Trust architecture is what turns an interesting assistant into delegated staff.</h2>
+              </div>
+              <p>
+                The Butler only becomes indispensable when memory, workflow authority, credentials, and audit history are coordinated in one
+                operating surface instead of scattered across disconnected tools.
+              </p>
+            </div>
+
+            <div className="site-architecture-shell">
+              <div className="site-architecture-top">Butler Shell</div>
+
+              <div className="site-architecture-grid">
+                {architectureLayers.map((layer) => (
+                  <article key={layer.label} className="site-architecture-card">
+                    <span className="site-card-kicker">Foundation</span>
+                    <h3>{layer.label}</h3>
+                    <p>{layer.detail}</p>
+                  </article>
+                ))}
+              </div>
+
+              <div className="site-worker-row">
+                <span className="site-worker-label">Supervised AI employees</span>
+                <div className="site-worker-chips">
+                  {workerLoops.map((loop) => (
+                    <span key={loop} className="site-worker-chip">
+                      {loop}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="site-section">
+            <div className="site-section-head">
+              <div>
+                <span className="site-section-number">04</span>
+                <h2>
+                  {funnel.key === "investors"
+                    ? "The capital story works when the business and the research program stay cleanly separated."
+                    : "The strongest funnel answers resistance before it starts sounding like it is defending itself."}
+                </h2>
+              </div>
+              <p>
+                {funnel.key === "investors"
+                  ? "Investors need the immediate product case, the expansion path, and the claim boundary. The research edge becomes stronger when it is presented narrowly and honestly."
+                  : "Visitors should feel understood as they move through the page. Objections become momentum when the response is practical, specific, and paced correctly."}
+              </p>
+            </div>
+
+            {funnel.key === "investors" ? (
+              <div className="site-bridge-grid">
+                {investorBridgeCards.map((card, index) => (
+                  <article
+                    key={card.title}
+                    className={`site-bridge-card ${index === 0 ? "site-bridge-card--accent" : ""}`}
+                  >
+                    <span className="site-card-kicker">{card.label}</span>
+                    <h3>{card.title}</h3>
+                    <p>{card.body}</p>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <div className="site-response-grid">
+                <div className="site-response-stack">
+                  {funnel.objectionHandling.map((item, index) => (
+                    <article key={item.objection} className="site-response-card">
+                      <span className="site-card-kicker">{`Objection 0${index + 1}`}</span>
+                      <h3>{item.objection}</h3>
+                      <p>{item.response}</p>
+                    </article>
+                  ))}
+                </div>
+
+                <aside className="site-aside-card">
+                  <span className="site-card-kicker">What happens next</span>
+                  <h3>Every route should make the next step feel obvious.</h3>
+                  <ol className="site-next-step-list">
+                    {funnel.nextSteps.map((step) => (
+                      <li key={step}>{step}</li>
+                    ))}
+                  </ol>
+                </aside>
+              </div>
+            )}
+          </section>
+
+          <section className="site-section" id="offer-ladder">
+            <div className="site-section-head">
+              <div>
+                <span className="site-section-number">05</span>
+                <h2>The offer ladder should feel like progression, not escalation.</h2>
+              </div>
+              <p>
+                The first yes should be easy. The deeper tiers should feel like a natural consequence of trust, workflow volume, and the
+                value of delegated continuity.
+              </p>
+            </div>
+
+            <div className="site-tier-grid">
+              {serviceTiers.map((tier) => {
+                const active = tier.key === activeTier.key;
+                return (
+                  <button
+                    key={tier.key}
+                    type="button"
+                    className={`site-tier-card ${active ? "is-active" : ""}`}
+                    onClick={() => setActiveTierKey(tier.key)}
+                  >
+                    <span className="site-card-kicker">{tier.label}</span>
+                    <strong>{tier.name}</strong>
+                    <p>{tier.price}</p>
+                    <span className="site-tier-link">
+                      Inspect this path
+                      <ChevronRight size={14} />
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="site-tier-detail">
+              <div>
+                <span className="site-card-kicker">Selected path</span>
+                <h3>{activeTier.name}</h3>
+                <p>{activeTier.summary}</p>
+              </div>
+
+              <div className="site-tier-meta">
+                <div>
+                  <span>Best for</span>
+                  <strong>{activeTier.bestFor}</strong>
+                </div>
+                <div>
+                  <span>Promise</span>
+                  <strong>{activeTier.promise}</strong>
+                </div>
+              </div>
+
+              <div className="site-tier-bullets">
+                {activeTier.bullets.map((bullet) => (
+                  <div key={bullet} className="site-tier-bullet">
+                    <ShieldCheck size={15} />
+                    <span>{bullet}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="site-section site-section--final">
+            <div className="site-cta-band">
+              <div>
+                <span className="site-card-kicker">Next step choreography</span>
+                <h2>{funnel.offer}</h2>
+                <p>
+                  Keep the page elegant, the route explicit, and the next action easy. The close should feel like the next scene in the
+                  conversation, not the beginning of a heavy implementation process.
+                </p>
+              </div>
+
+              <div className="site-cta-actions">
+                <button type="button" className="marketing-primary-button" onClick={() => openMiraChat(funnel, "final-cta")}>
+                  Start with Mira
+                  <ArrowRight size={16} />
+                </button>
+                <button type="button" className="marketing-secondary-button" onClick={() => scrollToId("offer-ladder")}>
+                  Review the offer ladder
+                </button>
+              </div>
+            </div>
+          </section>
         </main>
+        <ChatWidget segment={funnel} />
       </div>
-
-      <ChatWidget segment={funnel} />
     </div>
   );
 }

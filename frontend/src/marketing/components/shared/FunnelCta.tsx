@@ -22,7 +22,7 @@ export default function FunnelCta({
   sourcePath = "/",
 }: FunnelCtaProps) {
   const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [submissionMode, setSubmissionMode] = useState<"captured" | "handoff" | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -34,6 +34,21 @@ export default function FunnelCta({
     ],
     [],
   );
+
+  const fallbackMailto = useMemo(() => {
+    const trimmed = email.trim();
+    const subject = `aiButler inquiry — ${audienceLabel}`;
+    const body = [
+      `Email: ${trimmed || "[enter email]"}`,
+      `Segment: ${segment}`,
+      `Audience: ${audienceLabel}`,
+      `Offer: ${offer}`,
+      `Source: ${sourcePath}`,
+      "",
+      "I’m replying from the aiButler public site.",
+    ].join("\n");
+    return `mailto:Tyler@TylerSteeves.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  }, [audienceLabel, email, offer, segment, sourcePath]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -59,9 +74,15 @@ export default function FunnelCta({
         segment,
         path: sourcePath,
       });
-      setSubmitted(true);
+      setSubmissionMode("captured");
     } catch (captureError: any) {
-      setError(captureError?.message || "Lead capture failed.");
+      captureEvent("marketing_lead_handoff", {
+        segment,
+        path: sourcePath,
+      });
+      setSubmissionMode("handoff");
+      setError("");
+      window.location.href = fallbackMailto;
     } finally {
       setSubmitting(false);
     }
@@ -83,7 +104,7 @@ export default function FunnelCta({
         </div>
       </div>
       <div className="marketing-cta-card">
-        {!submitted ? (
+        {!submissionMode ? (
           <form className="space-y-3" onSubmit={handleSubmit}>
             <p className="text-sm text-[var(--marketing-cream-muted)]">{offer}</p>
             <input
@@ -98,12 +119,22 @@ export default function FunnelCta({
             </button>
             {error ? <p className="text-sm text-rose-200">{error}</p> : null}
           </form>
-        ) : (
+        ) : submissionMode === "captured" ? (
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-[0.28em] text-[var(--marketing-copper)]">Captured cleanly</p>
             <p className="text-base text-[var(--marketing-cream)]">
               Beautiful. Mira will treat that as the start of the conversation, not the end of a form.
             </p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.28em] text-[var(--marketing-copper)]">Direct handoff</p>
+            <p className="text-base text-[var(--marketing-cream)]">
+              This surface is running without the live capture backend, so I opened a direct email handoff instead. If Mail did not open, use the link below.
+            </p>
+            <a className="marketing-secondary-button inline-flex justify-center" href={fallbackMailto}>
+              Email Tyler directly
+            </a>
           </div>
         )}
       </div>

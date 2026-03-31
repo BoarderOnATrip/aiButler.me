@@ -1,4 +1,12 @@
-export const API_BASE = (import.meta as any).env.VITE_API_BASE || "http://127.0.0.1:8001";
+function resolveApiBase() {
+  const configured = (import.meta as any).env.VITE_API_BASE;
+  if (configured) return configured;
+  if (typeof window === "undefined") return "http://127.0.0.1:8001";
+  const host = window.location.hostname;
+  return host === "localhost" || host === "127.0.0.1" ? "http://127.0.0.1:8001" : "";
+}
+
+export const API_BASE = resolveApiBase();
 
 export function getToken() {
   return localStorage.getItem("token") || "";

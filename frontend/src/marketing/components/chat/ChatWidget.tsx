@@ -28,6 +28,12 @@ export function ChatWidget({ segment }: ChatWidgetProps) {
     setOpen(true);
   }
 
+  useEffect(() => {
+    const onOpenRequested = () => handleOpen();
+    window.addEventListener("aibutler:open-chat", onOpenRequested as EventListener);
+    return () => window.removeEventListener("aibutler:open-chat", onOpenRequested as EventListener);
+  }, [segment.key]);
+
   return (
     <div className="marketing-chat-launcher">
       {showPreview && !open && (
