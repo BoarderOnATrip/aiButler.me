@@ -93,20 +93,20 @@ export default function FunnelCta({
       <div>
         <p className="marketing-eyebrow">Low-friction conversion</p>
         <h3 className="marketing-cta-title">{title}</h3>
-        <p className="marketing-section-subtitle max-w-2xl">{body}</p>
-        <div className="mt-5 grid gap-3 md:grid-cols-3">
+        <p className="marketing-section-subtitle marketing-section-subtitle--wide">{body}</p>
+        <div className="marketing-cta-steps">
           {nextSteps.map((step, index) => (
             <div key={step} className="marketing-highlight-card">
               <p className="marketing-eyebrow">0{index + 1}</p>
-              <p className="text-sm leading-6 text-[var(--marketing-cream-muted)]">{step}</p>
+              <p className="marketing-highlight-copy">{step}</p>
             </div>
           ))}
         </div>
       </div>
       <div className="marketing-cta-card">
         {!submissionMode ? (
-          <form className="space-y-3" onSubmit={handleSubmit}>
-            <p className="text-sm text-[var(--marketing-cream-muted)]">{offer}</p>
+          <form className="marketing-cta-form" onSubmit={handleSubmit}>
+            <p className="marketing-cta-offer">{offer}</p>
             <input
               value={email}
               onChange={(event) => setEmail(event.target.value)}
@@ -114,25 +114,25 @@ export default function FunnelCta({
               placeholder="Email for the next step"
               type="email"
             />
-            <button type="submit" className="marketing-primary-button w-full">
+            <button type="submit" className="marketing-primary-button marketing-primary-button--block">
               {submitting ? "Routing you..." : ctaLabel}
             </button>
-            {error ? <p className="text-sm text-rose-200">{error}</p> : null}
+            {error ? <p className="marketing-cta-error">{error}</p> : null}
           </form>
         ) : submissionMode === "captured" ? (
-          <div className="space-y-3">
-            <p className="text-xs uppercase tracking-[0.28em] text-[var(--marketing-copper)]">Captured cleanly</p>
-            <p className="text-base text-[var(--marketing-cream)]">
-              Beautiful. Mira will treat that as the start of the conversation, not the end of a form.
+          <div className="marketing-cta-state">
+            <p className="marketing-cta-state-label">Captured cleanly</p>
+            <p className="marketing-cta-state-copy">
+              Mira will treat that as the start of a tailored next step, not the end of a dead form.
             </p>
           </div>
         ) : (
-          <div className="space-y-3">
-            <p className="text-xs uppercase tracking-[0.28em] text-[var(--marketing-copper)]">Direct handoff</p>
-            <p className="text-base text-[var(--marketing-cream)]">
+          <div className="marketing-cta-state">
+            <p className="marketing-cta-state-label">Direct handoff</p>
+            <p className="marketing-cta-state-copy">
               This surface is running without the live capture backend, so I opened a direct email handoff instead. If Mail did not open, use the link below.
             </p>
-            <a className="marketing-secondary-button inline-flex justify-center" href={fallbackMailto}>
+            <a className="marketing-secondary-button marketing-secondary-button--block" href={fallbackMailto}>
               Email Tyler directly
             </a>
           </div>

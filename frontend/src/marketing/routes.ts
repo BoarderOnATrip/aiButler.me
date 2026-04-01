@@ -19,6 +19,15 @@ export function isOrigamiPath(pathname: string) {
   return normalized === "/origami" || normalized.startsWith("/origami/");
 }
 
+export function isDiscerningAiPath(pathname: string) {
+  const normalized = normalizePathname(pathname);
+  return (
+    normalized === "/discerning-ai" ||
+    normalized === "/guide/discerning-ai" ||
+    normalized === "/guides/discerning-ai"
+  );
+}
+
 export function normalizePathname(pathname: string) {
   const trimmed = pathname.trim();
   if (!trimmed) return "/";

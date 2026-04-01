@@ -1,15 +1,13 @@
 export default {
   async fetch(request, env) {
-    const response = await env.ASSETS.fetch(request);
-    if (response.status !== 404) return response;
-
+    const url = new URL(request.url);
     const acceptsHtml = request.headers.get("accept")?.includes("text/html");
-    if (request.method !== "GET" || !acceptsHtml) {
-      return response;
+    const looksLikeAsset = /\.[a-z0-9]+$/i.test(url.pathname);
+
+    if (request.method === "GET" && acceptsHtml && !looksLikeAsset) {
+      return env.ASSETS.fetch("https://assets.local/");
     }
 
-    const url = new URL(request.url);
-    url.pathname = "/index.html";
-    return env.ASSETS.fetch(new Request(url.toString(), request));
+    return env.ASSETS.fetch(request);
   },
 };

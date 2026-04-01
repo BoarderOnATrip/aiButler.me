@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import MarketingSite from "./pages/MarketingSite";
+import DiscerningAiPage from "./pages/DiscerningAiPage";
 import "./marketing.css";
-import { stripBasePath, withBasePath } from "./routes";
+import { isDiscerningAiPath, stripBasePath, withBasePath } from "./routes";
 
 function currentPathname() {
   if (typeof window === "undefined") return "/";
@@ -23,6 +24,10 @@ export default function MarketingApp() {
     setPathname(nextPath);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  if (isDiscerningAiPath(pathname)) {
+    return <DiscerningAiPage pathname={pathname} onNavigate={navigateTo} />;
+  }
 
   return <MarketingSite pathname={pathname} onNavigate={navigateTo} />;
 }

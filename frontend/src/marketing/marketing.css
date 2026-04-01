@@ -823,6 +823,518 @@ body.marketing-body {
   animation-delay: 0.4s;
 }
 
+.marketing-section-subtitle {
+  margin: 0;
+  color: var(--marketing-cream-soft);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.marketing-section-subtitle--wide {
+  max-width: 42rem;
+}
+
+.marketing-cta-shell {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+  padding: 30px;
+  border-radius: 32px;
+  border: 1px solid rgba(248, 243, 236, 0.1);
+  background:
+    radial-gradient(circle at top right, rgba(212, 168, 71, 0.12), transparent 36%),
+    linear-gradient(180deg, rgba(43, 37, 34, 0.94), rgba(24, 21, 19, 0.94));
+  box-shadow: 0 26px 80px var(--marketing-shadow);
+}
+
+.marketing-cta-title {
+  margin: 6px 0 12px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 0.98;
+  color: var(--marketing-cream);
+}
+
+.marketing-cta-steps {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 22px;
+}
+
+.marketing-highlight-card,
+.marketing-cta-card {
+  border-radius: 24px;
+  border: 1px solid rgba(248, 243, 236, 0.08);
+  background: linear-gradient(180deg, rgba(248, 243, 236, 0.05), rgba(248, 243, 236, 0.02));
+}
+
+.marketing-highlight-card {
+  padding: 18px;
+}
+
+.marketing-highlight-copy {
+  margin: 8px 0 0;
+  color: var(--marketing-cream-soft);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.marketing-cta-card {
+  padding: 22px;
+}
+
+.marketing-cta-form,
+.marketing-cta-state {
+  display: grid;
+  gap: 14px;
+}
+
+.marketing-cta-offer,
+.marketing-cta-state-copy {
+  margin: 0;
+  color: var(--marketing-cream-soft);
+  line-height: 1.7;
+}
+
+.marketing-cta-state-label {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--marketing-copper-soft);
+}
+
+.marketing-email-input {
+  width: 100%;
+  min-width: 0;
+  border-radius: 18px;
+  border: 1px solid rgba(248, 243, 236, 0.12);
+  background: rgba(248, 243, 236, 0.05);
+  color: var(--marketing-cream);
+  padding: 1rem 1rem;
+  font: inherit;
+}
+
+.marketing-email-input::placeholder {
+  color: rgba(248, 243, 236, 0.42);
+}
+
+.marketing-primary-button--block,
+.marketing-secondary-button--block {
+  width: 100%;
+  justify-content: center;
+}
+
+.marketing-cta-error {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #f8c8c2;
+}
+
+.discerning-main {
+  gap: 68px;
+}
+
+.discerning-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.discerning-hero {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.72fr);
+  align-items: start;
+  padding-top: 26px;
+}
+
+.discerning-hero-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 760px;
+}
+
+.discerning-hero-title {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(3.4rem, 7.3vw, 6.2rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  color: var(--marketing-cream);
+  text-wrap: balance;
+}
+
+.discerning-hero-subtitle {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  line-height: 1.2;
+  color: var(--marketing-copper-soft);
+  max-width: 44rem;
+}
+
+.discerning-lead {
+  margin: 0;
+  color: var(--marketing-cream-soft);
+  font-size: 1.05rem;
+  line-height: 1.9;
+  max-width: 42rem;
+}
+
+.discerning-chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.discerning-chip {
+  max-width: 100%;
+}
+
+.discerning-quote-card {
+  width: min(100%, 520px);
+  padding: 22px 24px;
+  border-radius: 28px;
+  border: 1px solid rgba(212, 168, 71, 0.16);
+  background:
+    radial-gradient(circle at top right, rgba(212, 168, 71, 0.1), transparent 35%),
+    linear-gradient(180deg, rgba(37, 32, 29, 0.96), rgba(22, 19, 17, 0.96));
+  box-shadow: 0 22px 54px var(--marketing-shadow-soft);
+}
+
+.discerning-quote-card p,
+.discerning-bottom-line p {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  line-height: 1.04;
+  color: var(--marketing-cream);
+}
+
+.discerning-quote-card span,
+.discerning-bottom-line span {
+  display: block;
+  margin-top: 12px;
+  color: var(--marketing-copper-soft);
+  font-size: 0.86rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.discerning-rail {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  position: sticky;
+  top: 112px;
+}
+
+.discerning-rail-card {
+  border-radius: 28px;
+  padding: 22px;
+}
+
+.discerning-rail-card--soft,
+.discerning-mini-stats,
+.discerning-timeline-card {
+  border-radius: 24px;
+  padding: 20px;
+  border: 1px solid rgba(248, 243, 236, 0.08);
+  background:
+    linear-gradient(180deg, rgba(248, 243, 236, 0.04), rgba(248, 243, 236, 0.02)),
+    linear-gradient(180deg, rgba(35, 31, 28, 0.9), rgba(24, 21, 19, 0.92));
+  box-shadow: 0 22px 54px var(--marketing-shadow-soft);
+}
+
+.discerning-rail-card p {
+  margin: 0;
+  color: var(--marketing-cream-soft);
+  line-height: 1.75;
+}
+
+.discerning-checklist,
+.discerning-bullet-list {
+  margin: 16px 0 0;
+  padding-left: 1.1rem;
+  color: var(--marketing-cream);
+}
+
+.discerning-checklist li,
+.discerning-bullet-list li {
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+
+.discerning-bullet-list--compact {
+  margin-top: 12px;
+}
+
+.discerning-mini-stats {
+  display: grid;
+  gap: 14px;
+}
+
+.discerning-mini-stats div {
+  display: grid;
+  gap: 4px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(248, 243, 236, 0.08);
+}
+
+.discerning-mini-stats div:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.discerning-mini-stats span,
+.discerning-bucket-meta span {
+  color: var(--marketing-copper-soft);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.discerning-mini-stats strong {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--marketing-cream);
+}
+
+.discerning-rail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.discerning-section {
+  gap: 24px;
+}
+
+.discerning-section-head {
+  align-items: end;
+}
+
+.discerning-dual-grid,
+.discerning-filter-grid,
+.discerning-callout-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.discerning-feature-card--warning {
+  border-color: rgba(212, 83, 126, 0.16);
+  box-shadow: 0 0 0 1px rgba(212, 83, 126, 0.08) inset, 0 26px 80px var(--marketing-shadow);
+}
+
+.discerning-callout {
+  padding: 24px;
+}
+
+.discerning-callout-copy {
+  margin: 10px 0 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.7rem;
+  line-height: 1.22;
+  color: var(--marketing-cream);
+}
+
+.discerning-framework-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.discerning-bucket {
+  border-radius: 30px;
+}
+
+.discerning-bucket--automate {
+  border-color: rgba(93, 202, 165, 0.16);
+}
+
+.discerning-bucket--assist {
+  border-color: rgba(212, 168, 71, 0.18);
+}
+
+.discerning-bucket--protect {
+  border-color: rgba(216, 90, 48, 0.18);
+}
+
+.discerning-bucket-meta {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.discerning-bucket-meta p {
+  margin: 12px 0 0;
+  color: var(--marketing-cream-soft);
+  line-height: 1.75;
+}
+
+.discerning-filter-card {
+  border-radius: 26px;
+  padding: 24px;
+}
+
+.discerning-filter-card--accent {
+  border-color: rgba(212, 168, 71, 0.18);
+  box-shadow: 0 0 0 1px rgba(212, 168, 71, 0.08) inset, 0 26px 80px var(--marketing-shadow);
+}
+
+.discerning-rule-stack {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.discerning-rule-stack strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--marketing-cream);
+}
+
+.discerning-rule-stack p {
+  margin: 0;
+  color: var(--marketing-cream-soft);
+}
+
+.discerning-inline-band {
+  align-items: center;
+}
+
+.discerning-prompt-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.discerning-prompt-card {
+  border-radius: 28px;
+  padding: 24px;
+}
+
+.discerning-prompt-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.discerning-prompt-card h3,
+.discerning-timeline-card h3,
+.discerning-mistakes-head h3 {
+  margin: 8px 0 10px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2rem;
+  line-height: 1.02;
+  color: var(--marketing-cream);
+}
+
+.discerning-prompt-usecase {
+  margin: 0 0 10px;
+  color: var(--marketing-copper-soft);
+  font-size: 0.95rem;
+}
+
+.discerning-copy-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  padding: 0.72rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid rgba(248, 243, 236, 0.12);
+  background: rgba(248, 243, 236, 0.04);
+  color: var(--marketing-cream);
+  transition:
+    transform 180ms var(--marketing-ease),
+    border-color 180ms var(--marketing-ease),
+    background 180ms var(--marketing-ease);
+}
+
+.discerning-copy-button:hover {
+  transform: translateY(-2px);
+}
+
+.discerning-copy-button.is-copied {
+  border-color: rgba(212, 168, 71, 0.3);
+  background: rgba(212, 168, 71, 0.12);
+  color: var(--marketing-amber);
+}
+
+.discerning-prompt-details {
+  margin-top: 16px;
+  border-top: 1px solid rgba(248, 243, 236, 0.08);
+  padding-top: 16px;
+}
+
+.discerning-prompt-details summary {
+  cursor: pointer;
+  color: var(--marketing-amber);
+  list-style: none;
+}
+
+.discerning-prompt-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.discerning-prompt-details pre {
+  margin: 16px 0 0;
+  padding: 18px;
+  overflow-x: auto;
+  border-radius: 20px;
+  border: 1px solid rgba(248, 243, 236, 0.08);
+  background: rgba(10, 9, 8, 0.38);
+  color: var(--marketing-cream);
+  font-family: "SFMono-Regular", ui-monospace, monospace;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.discerning-timeline {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.discerning-timeline-card p {
+  margin: 0;
+  color: var(--marketing-cream-soft);
+  line-height: 1.75;
+}
+
+.discerning-mistakes-shell {
+  display: grid;
+  gap: 18px;
+}
+
+.discerning-mistake-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.discerning-mistake-card p {
+  font-size: 0.95rem;
+}
+
+.discerning-bottom-line {
+  padding: 28px 30px;
+  border-radius: 32px;
+  border: 1px solid rgba(212, 168, 71, 0.18);
+  background:
+    radial-gradient(circle at top right, rgba(212, 168, 71, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(37, 32, 29, 0.96), rgba(22, 19, 17, 0.96));
+  box-shadow: 0 26px 80px var(--marketing-shadow);
+}
+
 @keyframes marketing-pulse {
   0%,
   80%,
@@ -842,13 +1354,30 @@ body.marketing-body {
   .site-bridge-grid,
   .site-response-grid,
   .site-tier-detail,
-  .site-cta-band {
+  .site-cta-band,
+  .marketing-cta-shell,
+  .discerning-hero {
     grid-template-columns: 1fr;
   }
 
   .site-door-grid,
-  .site-architecture-grid {
+  .site-architecture-grid,
+  .discerning-prompt-grid,
+  .discerning-timeline {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .discerning-rail {
+    position: static;
+  }
+
+  .marketing-cta-steps,
+  .discerning-dual-grid,
+  .discerning-filter-grid,
+  .discerning-callout-grid,
+  .discerning-bucket-meta,
+  .discerning-mistake-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -881,7 +1410,11 @@ body.marketing-body {
   .site-tier-grid,
   .site-stat-grid,
   .site-architecture-grid,
-  .site-tier-meta {
+  .site-tier-meta,
+  .marketing-cta-steps,
+  .discerning-prompt-grid,
+  .discerning-timeline,
+  .discerning-mistake-grid {
     grid-template-columns: 1fr;
   }
 
@@ -895,6 +1428,26 @@ body.marketing-body {
   .site-cta-band {
     padding: 20px;
     border-radius: 24px;
+  }
+
+  .marketing-cta-shell,
+  .discerning-bottom-line {
+    padding: 22px;
+    border-radius: 26px;
+  }
+
+  .discerning-hero-title {
+    font-size: clamp(3rem, 13vw, 4.8rem);
+  }
+
+  .discerning-hero-subtitle,
+  .discerning-callout-copy {
+    font-size: 1.4rem;
+  }
+
+  .discerning-prompt-head {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .marketing-chat-overlay {
