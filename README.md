@@ -11,6 +11,7 @@ What lives here:
 
 Deployment today:
 - frontend can deploy directly to GitHub Pages via `.github/workflows/deploy-pages.yml`
+- frontend can also deploy directly to Cloudflare Workers via `wrangler.toml` and `cloudflare/edge-worker.js`
 - the frontend is safe to deploy without the backend; chat falls back to local copy-driven replies and lead capture falls back to direct email handoff
 - the backend remains the path for live SSE chat and persisted lead capture when deployed separately
 
